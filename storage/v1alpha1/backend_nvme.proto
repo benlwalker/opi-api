@@ -20,53 +20,61 @@ import "google/protobuf/field_mask.proto";
 import "object_key.proto";
 import "opicommon.proto";
 
-// Back End (network-facing) APIs. NVMe/TCP and NVMe/RoCEv2 protocols are covered by this service.
-service NVMfRemoteControllerService {
-    rpc CreateNVMfRemoteController (CreateNVMfRemoteControllerRequest) returns (NVMfRemoteController) {
+// Back End Nvme and Nvme-oF devices
+service NvmeBackendService {
+    rpc CreateNvmeBackendController (CreateNvmeBackendControllerRequest) returns (NvmeBackendController) {
         option (google.api.http) = {
             post: "/v1/{parent=subsystems}"
-            body: "nv_mf_remote_controller"
+            body: "nvme_be_controller"
         };
-        option (google.api.method_signature) = "parent,nv_mf_remote_controller,nv_mf_remote_controller_id";
+        option (google.api.method_signature) = "parent,nvme_be_controller,nvme_be_controller_id";
     }
-    rpc DeleteNVMfRemoteController (DeleteNVMfRemoteControllerRequest) returns (google.protobuf.Empty) {
+    rpc DeleteNvmeBackendController (DeleteNvmeBackendControllerRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             delete: "/v1/{name=subsystems}/{subsystem}"
         };
         option (google.api.method_signature) = "name";
     }
-    rpc UpdateNVMfRemoteController (UpdateNVMfRemoteControllerRequest) returns (NVMfRemoteController) {
+    rpc UpdateNvmeBackendController (UpdateNvmeBackendControllerRequest) returns (NvmeBackendController) {
         option (google.api.http) = {
-            patch: "/v1/{nv_mf_remote_controller.name=subsystems}"
-            body: "nv_mf_remote_controller"
+            patch: "/v1/{nvme_be_controller.name=subsystems}"
+            body: "nvme_be_controller"
         };
-        option (google.api.method_signature) = "nv_mf_remote_controller,update_mask";
+        option (google.api.method_signature) = "nvme_be_controller,update_mask";
     }
-    rpc ListNVMfRemoteControllers   (ListNVMfRemoteControllersRequest)   returns (ListNVMfRemoteControllersResponse)   {
+    rpc ListNvmeBackendControllers   (ListNvmeBackendControllersRequest)   returns (ListNvmeBackendControllersResponse)   {
         option (google.api.http) = {
             get: "/v1/{parent=subsystems}"
         };
         option (google.api.method_signature) = "parent";
     }
-    rpc GetNVMfRemoteController    (GetNVMfRemoteControllerRequest)    returns (NVMfRemoteController)    {
+    rpc GetNvmeBackendController    (GetNvmeBackendControllerRequest)    returns (NvmeBackendController)    {
         option (google.api.http) = {
             get: "/v1/{name=subsystems}/{subsystem}"
         };
         option (google.api.method_signature) = "name";
     }
-    rpc NVMfRemoteControllerReset (NVMfRemoteControllerResetRequest) returns (google.protobuf.Empty) {}
-    rpc NVMfRemoteControllerStats  (NVMfRemoteControllerStatsRequest)  returns (NVMfRemoteControllerStatsResponse)  {}
+    rpc NvmeBackendControllerReset (NvmeBackendControllerResetRequest) returns (google.protobuf.Empty) {}
+    rpc NvmeBackendControllerStats  (NvmeBackendControllerStatsRequest)  returns (NvmeBackendControllerStatsResponse)  {}
 }
 
-message NVMfRemoteController {
+message NvmeBackendController {
     // object's unique identifier
     common.v1.ObjectKey id = 1;
 
     NvmeTransportType trtype = 2;
+
+    // For local PCIe, leave as unspecified
     NvmeAddressFamily adrfam = 3;
+
+    // For local PCIe, the bus:device:function. For TCP and RDMA, the IP address
     string traddr = 4;
+
+    // For local PCIe, unused. For TCP and RDMA, the port number
     int64 trsvcid = 5;
+
     string subnqn = 6;
+
     bool hdgst = 7;
     bool ddgst = 8;
     NvmeMultipath multipath = 9;
@@ -75,65 +83,65 @@ message NVMfRemoteController {
     string hostnqn = 12;
 }
 
-message CreateNVMfRemoteControllerRequest {
+message CreateNvmeBackendControllerRequest {
     string parent = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMfRemoteController"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeBackendController"
     ];
-    NVMfRemoteController nv_mf_remote_controller = 2 [(google.api.field_behavior) = REQUIRED];
-    string nv_mf_remote_controller_id = 3;
+    NvmeBackendController nvme_be_controller = 2 [(google.api.field_behavior) = REQUIRED];
+    string nvme_be_controller_id = 3;
 }
 
-message DeleteNVMfRemoteControllerRequest {
+message DeleteNvmeBackendControllerRequest {
     // object's unique identifier
     string name = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMfRemoteController"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeBackendController"
     ];
     // If set to true, and the resource is not found, the request will succeed
     // but no action will be taken on the server
     bool allow_missing = 2;
 }
 
-message UpdateNVMfRemoteControllerRequest {
-    NVMfRemoteController nv_mf_remote_controller = 1;
+message UpdateNvmeBackendControllerRequest {
+    NvmeBackendController nvme_be_controller = 1;
     // The list of fields to update.
     google.protobuf.FieldMask update_mask = 2;
 }
 
-message ListNVMfRemoteControllersRequest {
+message ListNvmeBackendControllersRequest {
     string parent = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMfRemoteController"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeBackendController"
     ];
     int32 page_size = 2;
     string page_token = 3;
 }
 
-message ListNVMfRemoteControllersResponse {
-    repeated NVMfRemoteController nv_mf_remote_controllers = 1;
+message ListNvmeBackendControllersResponse {
+    repeated NvmeBackendController nvme_be_controllers = 1;
     string next_page_token = 2;
 }
 
-message GetNVMfRemoteControllerRequest {
+message GetNvmeBackendControllerRequest {
     // object's unique identifier
     string name = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMfRemoteController"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeBackendController"
     ];
 }
 
-message NVMfRemoteControllerResetRequest {
+message NvmeBackendControllerResetRequest {
     // object's unique identifier
     common.v1.ObjectKey id = 1;
 }
 
-message NVMfRemoteControllerStatsRequest {
+message NvmeBackendControllerStatsRequest {
     // object's unique identifier
     common.v1.ObjectKey id = 1;
 }
 
-message NVMfRemoteControllerStatsResponse {
+message NvmeBackendControllerStatsResponse {
     VolumeStats stats = 1;
 }
 
