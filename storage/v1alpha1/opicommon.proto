@@ -11,6 +11,24 @@ option java_outer_classname = "OpiCommonProto";
 
 option go_package = "github.com/opiproject/opi-api/storage/v1alpha1/gen/go";
 
+enum NvmeTransportType {
+    NVME_TRANSPORT_TYPE_UNSPECIFIED = 0;
+    NVME_TRANSPORT_FC               = 1;
+    NVME_TRANSPORT_PCIE             = 2;
+    NVME_TRANSPORT_RDMA             = 3;
+    NVME_TRANSPORT_TCP              = 4;
+    NVME_TRANSPORT_CUSTOM           = 5;
+}
+
+enum NvmeAddressFamily {
+    NVME_ADDRESS_FAMILY_UNSPECIFIED = 0;
+    NVMF_ADRFAM_IPV4                = 1;
+    NVMF_ADRFAM_IPV6                = 2;
+    NVMF_ADRFAM_IB                  = 3;
+    NVMF_ADRFAM_FC                  = 4;
+    NVMF_ADRFAM_INTRA_HOST          = 5;
+}
+
 // Many front-ends expose PCI devices to the host. This represents that endpoint.
 // This device will ultimately be surfaced by the operating system at some
 // Bus:Device:Function, but note that the values set here are not necessarily
@@ -35,6 +53,16 @@ message PciEndpoint {
     // "function" value in the bus:device:function identifier, but it does not
     // strictly have to and that should not be relied upon.
     int32 virtual_function = 3;
+}
+
+message FabricEndpoint {
+    NvmeAddressFamily adrfam = 3;
+
+    // The IP address
+    string traddr = 4;
+
+    // The port number
+    int64 trsvcid = 5;
 }
 
 message VolumeStats {

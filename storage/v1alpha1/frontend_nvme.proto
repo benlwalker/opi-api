@@ -91,6 +91,40 @@ service FrontendNvmeService {
     }
     rpc NvmeFrontendControllerStats  (NvmeFrontendControllerStatsRequest)  returns (NvmeFrontendControllerStatsResponse)  {}
 
+    rpc CreateNvmeFrontendEndpoint (CreateNvmeFrontendEndpointRequest) returns (NvmeFrontendEndpoint) {
+        option (google.api.http) = {
+            post: "/v1/{parent=subsystems}"
+            body: "nvme_fe_endpoint"
+        };
+        option (google.api.method_signature) = "parent,nvme_fe_endpoint,nvme_fe_endpoint_id";
+    }
+    rpc DeleteNvmeFrontendEndpoint (DeleteNvmeFrontendEndpointRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "/v1/{name=endpoints}/{endpoint}"
+        };
+        option (google.api.method_signature) = "name";
+    }
+    rpc UpdateNvmeFrontendEndpoint (UpdateNvmeFrontendEndpointRequest) returns (NvmeFrontendEndpoint) {
+        option (google.api.http) = {
+            patch: "/v1/{nvme_fe_endpoint.name=subsystems}"
+            body: "nvme_fe_endpoint"
+        };
+        option (google.api.method_signature) = "nvme_fe_endpoint,update_mask";
+    }
+    rpc ListNvmeFrontendEndpoint   (ListNvmeFrontendEndpointRequest)   returns (ListNvmeFrontendEndpointResponse)   {
+        option (google.api.http) = {
+            get: "/v1/{parent=subsystems}"
+        };
+        option (google.api.method_signature) = "parent";
+    }
+    rpc GetNvmeFrontendEndpoint    (GetNvmeFrontendEndpointRequest)    returns (NvmeFrontendEndpoint)    {
+        option (google.api.http) = {
+            get: "/v1/{name=subsystems}/{endpoint}"
+        };
+        option (google.api.method_signature) = "name";
+    }
+    rpc NvmeFrontendEndpointStats  (NvmeFrontendEndpointStatsRequest)  returns (NvmeFrontendEndpointStatsResponse)  {}
+
     rpc CreateNvmeFrontendNamespace (CreateNvmeFrontendNamespaceRequest) returns (NvmeFrontendNamespace) {
         option (google.api.http) = {
             post: "/v1/{parent=subsystems}"
@@ -200,6 +234,27 @@ message NvmeFrontendControllerSpec {
 
 message NvmeFrontendControllerStatus {
     // Device is in use by host nvme driver
+    bool   active = 1;
+}
+
+message NvmeFrontendEndpoint {
+  NvmeFrontendEndpointSpec   spec   = 1;
+  NvmeFrontendEndpointStatus status = 2;
+}
+
+message NvmeFrontendEndpointSpec {
+    // object's unique identifier
+    common.v1.ObjectKey id = 1;
+
+    FabricEndpoint fabric_id = 4;
+
+    // TLS?
+
+    // Access Control?
+}
+
+message NvmeFrontendEndpointStatus {
+    // Endpoint is ready to accept connections
     bool   active = 1;
 }
 
@@ -350,6 +405,60 @@ message NvmeFrontendControllerStatsRequest {
 message NvmeFrontendControllerStatsResponse {
     common.v1.ObjectKey id = 1;
     VolumeStats stats = 2;
+}
+
+message CreateNvmeFrontendEndpointRequest {
+    string parent = 1 [
+        (google.api.field_behavior) = REQUIRED,
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendEndpoint"
+    ];
+    NvmeFrontendEndpoint nvme_fe_endpoint = 2 [(google.api.field_behavior) = REQUIRED];
+    string nvme_fe_controller_id = 3;
+}
+
+message DeleteNvmeFrontendEndpointRequest {
+    string name = 1 [
+        (google.api.field_behavior) = REQUIRED,
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendEndpoint"
+    ];
+    // If set to true, and the resource is not found, the request will succeed
+    // but no action will be taken on the server
+    bool allow_missing = 2;
+}
+
+message UpdateNvmeFrontendEndpointRequest {
+    NvmeFrontendEndpoint nvme_fe_endpoint = 1;
+    // The list of fields to update.
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message ListNvmeFrontendEndpointsRequest {
+    string parent = 1 [
+        (google.api.field_behavior) = REQUIRED,
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendEndpoint"
+    ];
+    int32 page_size = 2;
+    string page_token = 3;
+}
+
+message ListNvmeFrontendEndpointsResponse {
+    repeated NvmeFrontendEndpoint nvme_fe_endpoints = 1;
+    string next_page_token = 2;
+}
+
+message GetNvmeFrontendEndpointRequest {
+    string name = 1 [
+        (google.api.field_behavior) = REQUIRED,
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendEndpoint"
+    ];
+}
+
+message NvmeFrontendEndpointStatsRequest {
+    common.v1.ObjectKey id = 1;
+}
+
+message NvmeFrontendEndpointStatsResponse {
+    common.v1.ObjectKey id = 1;
 }
 
 message CreateNvmeFrontendNamespaceRequest {
