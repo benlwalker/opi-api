@@ -21,122 +21,122 @@ import "google/api/annotations.proto";
 import "google/api/field_behavior.proto";
 import "google/protobuf/field_mask.proto";
 
-// Front End (host-facing) APIs. Mostly used for NVMe/PCIe emulation and host presentation.
+// Front End (host-facing) APIs. Both PCIe and Fabrics.
 service FrontendNvmeService {
-    rpc CreateNVMeSubsystem (CreateNVMeSubsystemRequest) returns (NVMeSubsystem) {
+    rpc CreateNvmeFrontendSubsystem (CreateNvmeFrontendSubsystemRequest) returns (NvmeFrontendSubsystem) {
         option (google.api.http) = {
             post: "/v1/{parent=subsystems}"
-            body: "nv_me_subsystem"
+            body: "nvme_fe_subsystem"
         };
-        option (google.api.method_signature) = "parent,nv_me_subsystem,nv_me_subsystem_id";
+        option (google.api.method_signature) = "parent,nvme_fe_subsystem,nvme_fe_subsystem_id";
     }
-    rpc DeleteNVMeSubsystem (DeleteNVMeSubsystemRequest) returns (google.protobuf.Empty) {
+    rpc DeleteNvmeFrontendSubsystem (DeleteNvmeFrontendSubsystemRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             delete: "/v1/{name=subsystems}/{subsystem}"
         };
         option (google.api.method_signature) = "name";
     }
-    rpc UpdateNVMeSubsystem (UpdateNVMeSubsystemRequest) returns (NVMeSubsystem) {
+    rpc UpdateNvmeFrontendSubsystem (UpdateNvmeFrontendSubsystemRequest) returns (NvmeFrontendSubsystem) {
         option (google.api.http) = {
-            patch: "/v1/{nv_me_subsystem.name=subsystems}"
-            body: "nv_me_subsystem"
+            patch: "/v1/{nvme_fe_subsystem.name=subsystems}"
+            body: "nvme_fe_subsystem"
         };
-        option (google.api.method_signature) = "nv_me_subsystem,update_mask";
+        option (google.api.method_signature) = "nvme_fe_subsystem,update_mask";
     }
-    rpc ListNVMeSubsystems   (ListNVMeSubsystemsRequest)   returns (ListNVMeSubsystemsResponse)   {
+    rpc ListNvmeFrontendSubsystems   (ListNvmeFrontendSubsystemsRequest)   returns (ListNvmeFrontendSubsystemsResponse)   {
         option (google.api.http) = {
             get: "/v1/{parent=subsystems}"
         };
         option (google.api.method_signature) = "parent";
     }
-    rpc GetNVMeSubsystem    (GetNVMeSubsystemRequest)    returns (NVMeSubsystem)    {
+    rpc GetNvmeFrontendSubsystem    (GetNvmeFrontendSubsystemRequest)    returns (NvmeFrontendSubsystem)    {
         option (google.api.http) = {
             get: "/v1/{name=subsystems}/{subsystem}"
         };
         option (google.api.method_signature) = "name";
     }
-    rpc NVMeSubsystemStats  (NVMeSubsystemStatsRequest)  returns (NVMeSubsystemStatsResponse)  {}
+    rpc NvmeFrontendSubsystemStats  (NvmeFrontendSubsystemStatsRequest)  returns (NvmeFrontendSubsystemStatsResponse)  {}
 
-    rpc CreateNVMeController (CreateNVMeControllerRequest) returns (NVMeController) {
+    rpc CreateNvmeFrontendController (CreateNvmeFrontendControllerRequest) returns (NvmeFrontendController) {
         option (google.api.http) = {
             post: "/v1/{parent=subsystems}"
-            body: "nv_me_controller"
+            body: "nvme_fe_controller"
         };
-        option (google.api.method_signature) = "parent,nv_me_controller,nv_me_controller_id";
+        option (google.api.method_signature) = "parent,nvme_fe_controller,nvme_fe_controller_id";
     }
-    rpc DeleteNVMeController (DeleteNVMeControllerRequest) returns (google.protobuf.Empty) {
+    rpc DeleteNvmeFrontendController (DeleteNvmeFrontendControllerRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             delete: "/v1/{name=controllers}/{controller}"
         };
         option (google.api.method_signature) = "name";
     }
-    rpc UpdateNVMeController (UpdateNVMeControllerRequest) returns (NVMeController) {
+    rpc UpdateNvmeFrontendController (UpdateNvmeFrontendControllerRequest) returns (NvmeFrontendController) {
         option (google.api.http) = {
-            patch: "/v1/{nv_me_controller.name=subsystems}"
-            body: "nv_me_controller"
+            patch: "/v1/{nvme_fe_controller.name=subsystems}"
+            body: "nvme_fe_controller"
         };
-        option (google.api.method_signature) = "nv_me_controller,update_mask";
+        option (google.api.method_signature) = "nvme_fe_controller,update_mask";
     }
-    rpc ListNVMeControllers   (ListNVMeControllersRequest)   returns (ListNVMeControllersResponse)   {
+    rpc ListNvmeFrontendControllers   (ListNvmeFrontendControllersRequest)   returns (ListNvmeFrontendControllersResponse)   {
         option (google.api.http) = {
             get: "/v1/{parent=subsystems}"
         };
         option (google.api.method_signature) = "parent";
     }
-    rpc GetNVMeController    (GetNVMeControllerRequest)    returns (NVMeController)    {
+    rpc GetNvmeFrontendController    (GetNvmeFrontendControllerRequest)    returns (NvmeFrontendController)    {
         option (google.api.http) = {
             get: "/v1/{name=subsystems}/{controller}"
         };
         option (google.api.method_signature) = "name";
     }
-    rpc NVMeControllerStats  (NVMeControllerStatsRequest)  returns (NVMeControllerStatsResponse)  {}
+    rpc NvmeFrontendControllerStats  (NvmeFrontendControllerStatsRequest)  returns (NvmeFrontendControllerStatsResponse)  {}
 
-    rpc CreateNVMeNamespace (CreateNVMeNamespaceRequest) returns (NVMeNamespace) {
+    rpc CreateNvmeFrontendNamespace (CreateNvmeFrontendNamespaceRequest) returns (NvmeFrontendNamespace) {
         option (google.api.http) = {
             post: "/v1/{parent=subsystems}"
-            body: "nv_me_namespace"
+            body: "nvme_fe_namespace"
         };
-        option (google.api.method_signature) = "parent,nv_me_namespace,nv_me_namespace_id";
+        option (google.api.method_signature) = "parent,nvme_fe_namespace,nvme_fe_namespace_id";
     }
-    rpc DeleteNVMeNamespace (DeleteNVMeNamespaceRequest) returns (google.protobuf.Empty) {
+    rpc DeleteNvmeFrontendNamespace (DeleteNvmeFrontendNamespaceRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             delete: "/v1/{name=namespaces}/{namespace}"
         };
         option (google.api.method_signature) = "name";
     }
-    rpc UpdateNVMeNamespace (UpdateNVMeNamespaceRequest) returns (NVMeNamespace) {
+    rpc UpdateNvmeFrontendNamespace (UpdateNvmeFrontendNamespaceRequest) returns (NvmeFrontendNamespace) {
         option (google.api.http) = {
-            patch: "/v1/{nv_me_namespace.name=subsystems}"
-            body: "nv_me_namespace"
+            patch: "/v1/{nvme_fe_namespace.name=subsystems}"
+            body: "nvme_fe_namespace"
         };
-        option (google.api.method_signature) = "nv_me_namespace,update_mask";
+        option (google.api.method_signature) = "nvme_fe_namespace,update_mask";
     }
-    rpc ListNVMeNamespaces   (ListNVMeNamespacesRequest)   returns (ListNVMeNamespacesResponse)   {
+    rpc ListNvmeFrontendNamespaces   (ListNvmeFrontendNamespacesRequest)   returns (ListNvmeFrontendNamespacesResponse)   {
         option (google.api.http) = {
             get: "/v1/{parent=subsystems}"
         };
         option (google.api.method_signature) = "parent";
     }
-    rpc GetNVMeNamespace    (GetNVMeNamespaceRequest)    returns (NVMeNamespace)    {
+    rpc GetNvmeFrontendNamespace    (GetNvmeFrontendNamespaceRequest)    returns (NvmeFrontendNamespace)    {
         option (google.api.http) = {
             get: "/v1/{name=subsystems}/{namespace}"
         };
         option (google.api.method_signature) = "name";
     }
-    rpc NVMeNamespaceStats  (NVMeNamespaceStatsRequest)  returns (NVMeNamespaceStatsResponse)  {}
+    rpc NvmeFrontendNamespaceStats  (NvmeFrontendNamespaceStatsRequest)  returns (NvmeFrontendNamespaceStatsResponse)  {}
 }
 
-message NVMeSubsystem {
-  NVMeSubsystemSpec   spec   = 1;
-  NVMeSubsystemStatus status = 2;
+message NvmeFrontendSubsystem {
+  NvmeFrontendSubsystemSpec   spec   = 1;
+  NvmeFrontendSubsystemStatus status = 2;
 }
 
-message NVMeSubsystemSpec {
+message NvmeFrontendSubsystemSpec {
     // object's unique identifier
     common.v1.ObjectKey id = 1;
 
-    // NVMe subsystem NQN to which the controller belongs
-    // Refer to the NQN format in the NVMe base specifications, must not
+    // NvmeFrontend subsystem NQN to which the controller belongs
+    // Refer to the NQN format in the NvmeFrontend base specifications, must not
     // exceed 'NSV_NVME_SUBSYSTEM_NQN_LEN' bytes
     string nqn = 2;
 
@@ -150,7 +150,7 @@ message NVMeSubsystemSpec {
     int64 max_namespaces = 5;
 }
 
-message NVMeSubsystemStatus {
+message NvmeFrontendSubsystemStatus {
     // firmware revision, must not exceed 'NSV_CTRLR_FW_REV_LEN'
     string firmware_revision  = 1;
 
@@ -158,12 +158,12 @@ message NVMeSubsystemStatus {
     bytes fru_guid = 2;
 }
 
-message NVMeController {
-  NVMeControllerSpec   spec   = 1;
-  NVMeControllerStatus status = 2;
+message NvmeFrontendController {
+  NvmeFrontendControllerSpec   spec   = 1;
+  NvmeFrontendControllerStatus status = 2;
 }
 
-message NVMeControllerSpec {
+message NvmeFrontendControllerSpec {
     // object's unique identifier
     common.v1.ObjectKey id = 1;
 
@@ -198,17 +198,17 @@ message NVMeControllerSpec {
     int32 max_namespaces = 9;
 }
 
-message NVMeControllerStatus {
+message NvmeFrontendControllerStatus {
     // Device is in use by host nvme driver
     bool   active = 1;
 }
 
-message NVMeNamespace {
-  NVMeNamespaceSpec   spec   = 1;
-  NVMeNamespaceStatus status = 2;
+message NvmeFrontendNamespace {
+  NvmeFrontendNamespaceSpec   spec   = 1;
+  NvmeFrontendNamespaceStatus status = 2;
 }
 
-message NVMeNamespaceSpec {
+message NvmeFrontendNamespaceSpec {
     // namespace's unique key
     common.v1.ObjectKey id = 1;
 
@@ -235,180 +235,180 @@ message NVMeNamespaceSpec {
     common.v1.ObjectKey volume_id = 10;
 }
 
-message NVMeNamespaceStatus {
+message NvmeFrontendNamespaceStatus {
     // config state of the namespace object, (enabled, disable, deleting)
-    NVMeNamespacePciState      pci_state       = 1;
+    NvmeFrontendNamespacePciState      pci_state       = 1;
 
     // Operational state of the namespace object, (connected, disconnected)
-    NVMeNamespacePciOperState  pci_oper_state   = 2;
+    NvmeFrontendNamespacePciOperState  pci_oper_state   = 2;
 }
 
-message CreateNVMeSubsystemRequest {
+message CreateNvmeFrontendSubsystemRequest {
     string parent = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMeSubsystem"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendSubsystem"
     ];
-    NVMeSubsystem nv_me_subsystem = 2 [(google.api.field_behavior) = REQUIRED];
-    string nv_me_subsystem_id = 3;
+    NvmeFrontendSubsystem nvme_fe_subsystem = 2 [(google.api.field_behavior) = REQUIRED];
+    string nvme_fe_subsystem_id = 3;
 }
 
-message DeleteNVMeSubsystemRequest {
+message DeleteNvmeFrontendSubsystemRequest {
     string name = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMeSubsystem"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendSubsystem"
     ];
     // If set to true, and the resource is not found, the request will succeed
     // but no action will be taken on the server
     bool allow_missing = 2;
 }
 
-message UpdateNVMeSubsystemRequest {
-    NVMeSubsystem nv_me_subsystem = 1;
+message UpdateNvmeFrontendSubsystemRequest {
+    NvmeFrontendSubsystem nvme_fe_subsystem = 1;
     // The list of fields to update.
     google.protobuf.FieldMask update_mask = 2;
 }
 
-message ListNVMeSubsystemsRequest {
+message ListNvmeFrontendSubsystemsRequest {
     string parent = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMeSubsystem"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendSubsystem"
     ];
     int32 page_size = 2;
     string page_token = 3;
 }
 
-message ListNVMeSubsystemsResponse {
-    repeated NVMeSubsystem nv_me_subsystems = 1;
+message ListNvmeFrontendSubsystemsResponse {
+    repeated NvmeFrontendSubsystem nvme_fe_subsystems = 1;
     string next_page_token = 2;
 }
 
-message GetNVMeSubsystemRequest {
+message GetNvmeFrontendSubsystemRequest {
     string name = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMeSubsystem"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendSubsystem"
     ];
 }
 
-message NVMeSubsystemStatsRequest {
+message NvmeFrontendSubsystemStatsRequest {
     common.v1.ObjectKey subsystem_id = 1;
 }
 
-message NVMeSubsystemStatsResponse {
+message NvmeFrontendSubsystemStatsResponse {
     VolumeStats stats = 1;
 }
 
-message CreateNVMeControllerRequest {
+message CreateNvmeFrontendControllerRequest {
     string parent = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMeController"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendController"
     ];
-    NVMeController nv_me_controller = 2 [(google.api.field_behavior) = REQUIRED];
-    string nv_me_controller_id = 3;
+    NvmeFrontendController nvme_fe_controller = 2 [(google.api.field_behavior) = REQUIRED];
+    string nvme_fe_controller_id = 3;
 }
 
-message DeleteNVMeControllerRequest {
+message DeleteNvmeFrontendControllerRequest {
     string name = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMeController"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendController"
     ];
     // If set to true, and the resource is not found, the request will succeed
     // but no action will be taken on the server
     bool allow_missing = 2;
 }
 
-message UpdateNVMeControllerRequest {
-    NVMeController nv_me_controller = 1;
+message UpdateNvmeFrontendControllerRequest {
+    NvmeFrontendController nvme_fe_controller = 1;
     // The list of fields to update.
     google.protobuf.FieldMask update_mask = 2;
 }
 
-message ListNVMeControllersRequest {
+message ListNvmeFrontendControllersRequest {
     string parent = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMeController"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendController"
     ];
     int32 page_size = 2;
     string page_token = 3;
 }
 
-message ListNVMeControllersResponse {
-    repeated NVMeController nv_me_controllers = 1;
+message ListNvmeFrontendControllersResponse {
+    repeated NvmeFrontendController nvme_fe_controllers = 1;
     string next_page_token = 2;
 }
 
-message GetNVMeControllerRequest {
+message GetNvmeFrontendControllerRequest {
     string name = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMeController"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendController"
     ];
 }
 
-message NVMeControllerStatsRequest {
+message NvmeFrontendControllerStatsRequest {
     common.v1.ObjectKey id = 1;
 }
 
-message NVMeControllerStatsResponse {
+message NvmeFrontendControllerStatsResponse {
     common.v1.ObjectKey id = 1;
     VolumeStats stats = 2;
 }
 
-message CreateNVMeNamespaceRequest {
+message CreateNvmeFrontendNamespaceRequest {
     string parent = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMeNamespace"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendNamespace"
     ];
-    NVMeNamespace nv_me_namespace = 2 [(google.api.field_behavior) = REQUIRED];
-    string nv_me_namespace_id = 3;
+    NvmeFrontendNamespace nvme_fe_namespace = 2 [(google.api.field_behavior) = REQUIRED];
+    string nvme_fe_namespace_id = 3;
 }
 
-message DeleteNVMeNamespaceRequest {
+message DeleteNvmeFrontendNamespaceRequest {
     string name = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMeNamespace"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendNamespace"
     ];
     // If set to true, and the resource is not found, the request will succeed
     // but no action will be taken on the server
     bool allow_missing = 2;
 }
 
-message UpdateNVMeNamespaceRequest {
-    NVMeNamespace nv_me_namespace = 1;
+message UpdateNvmeFrontendNamespaceRequest {
+    NvmeFrontendNamespace nvme_fe_namespace = 1;
     // The list of fields to update.
     google.protobuf.FieldMask update_mask = 2;
 }
 
-message ListNVMeNamespacesRequest {
+message ListNvmeFrontendNamespacesRequest {
     string parent = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMeNamespace"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendNamespace"
     ];
     int32 page_size = 2;
     string page_token = 3;
 }
 
-message ListNVMeNamespacesResponse {
-    repeated NVMeNamespace nv_me_namespaces = 1;
+message ListNvmeFrontendNamespacesResponse {
+    repeated NvmeFrontendNamespace nvme_fe_namespaces = 1;
     string next_page_token = 2;
 }
 
-message GetNVMeNamespaceRequest {
+message GetNvmeFrontendNamespaceRequest {
     string name = 1 [
         (google.api.field_behavior) = REQUIRED,
-        (google.api.resource_reference).type = "opi_api.storage.v1/NVMeNamespace"
+        (google.api.resource_reference).type = "opi_api.storage.v1/NvmeFrontendNamespace"
     ];
 }
 
-message NVMeNamespaceStatsRequest {
+message NvmeFrontendNamespaceStatsRequest {
     common.v1.ObjectKey namespace_id = 1;
 }
 
-message NVMeNamespaceStatsResponse {
+message NvmeFrontendNamespaceStatsResponse {
     common.v1.ObjectKey id = 1;
     VolumeStats stats = 2;
 }
 
 // Namespace  Administrative States
-enum NVMeNamespacePciState {
+enum NvmeFrontendNamespacePciState {
     // unspecified
     NV_ME_NAMESPACE_PCI_STATE_UNSPECIFIED = 0;
     // namespace disabled state
@@ -420,7 +420,7 @@ enum NVMeNamespacePciState {
 }
 
 // Namespace PCIe operational states
-enum NVMeNamespacePciOperState {
+enum NvmeFrontendNamespacePciOperState {
     // unspecified
     NV_ME_NAMESPACE_PCI_OPER_STATE_UNSPECIFIED = 0;
     // namespace is online and operational
